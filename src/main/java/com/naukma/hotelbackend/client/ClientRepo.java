@@ -4,7 +4,10 @@ import com.naukma.hotelbackend.client.model.Client;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ClientRepo extends CrudRepository<Integer, Client> {
+import java.util.List;
 
+@Repository
+public interface ClientRepo extends CrudRepository<Client, Integer> {
+
+    Client findFirstByEmailEquals(String email);
 }

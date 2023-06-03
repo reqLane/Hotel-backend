@@ -1,5 +1,6 @@
 package com.naukma.hotelbackend.client.model;
 
+import com.naukma.hotelbackend.client.role.Role;
 import com.naukma.hotelbackend.reservation.model.Reservation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -19,6 +20,10 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @NotNull
     private String name;

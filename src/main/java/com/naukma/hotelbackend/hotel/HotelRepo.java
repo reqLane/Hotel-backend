@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HotelRepo extends CrudRepository<Integer, Hotel> {
+public interface HotelRepo extends CrudRepository<Hotel, Integer> {
 
+    Hotel findFirstByAddressEquals(String address);
 }
