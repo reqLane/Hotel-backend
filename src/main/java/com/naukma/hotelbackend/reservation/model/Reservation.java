@@ -3,9 +3,7 @@ package com.naukma.hotelbackend.reservation.model;
 import com.naukma.hotelbackend.client.model.Client;
 import com.naukma.hotelbackend.room.model.Room;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +23,8 @@ public class Reservation {
     private Integer id;
 
     @NotNull
-    @Size(min = 1, max = 4)
+    @Min(value = 1)
+    @Max(value = 4)
     private Integer adults;
 
     @NotNull

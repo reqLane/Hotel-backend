@@ -2,9 +2,10 @@ package com.naukma.hotelbackend.hotel.model;
 
 import com.naukma.hotelbackend.room.model.Room;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +26,8 @@ public class Hotel {
     private String address;
 
     @NotNull
-    @Size(min = 1, max = 5)
+    @Min(value = 1)
+    @Max(value = 5)
     private Integer stars;
 
     @NotNull

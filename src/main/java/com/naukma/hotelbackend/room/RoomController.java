@@ -4,11 +4,16 @@ import com.naukma.hotelbackend.hotel.HotelService;
 import com.naukma.hotelbackend.hotel.model.Hotel;
 import com.naukma.hotelbackend.room.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/rooms")
@@ -21,6 +26,46 @@ public class RoomController {
                           HotelService hotelService) {
         this.roomService = roomService;
         this.hotelService = hotelService;
+    }
+
+//    @PostMapping("/initTestImages")
+//    public Boolean initTestImages() {
+//        try {
+//            Hotel hotel = hotelService.findByAddress("Good Street 12");
+//
+//            ClassPathResource imagesFolder = new ClassPathResource("images");
+//            File[] imageFiles = imagesFolder.getFile().listFiles();
+//
+//            roomService.deleteAll();
+//
+//            int i = 100;
+//            for (File imageFile : imageFiles) {
+//                byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
+//
+//                Room room = new Room();
+//                room.setNumber(++i);
+//                room.setPrice(BigDecimal.valueOf(249.00));
+//                room.setCapacity(2);
+//                room.setHotel(hotel);
+//                room.setImage(imageBytes);
+//
+//                roomService.create(room);
+//            }
+//
+//            return true;
+//        } catch(Exception e) {
+//            return false;
+//        }
+//    }
+
+    @GetMapping("/{roomId}/getImage")
+    public ResponseEntity<byte[]> getImageById(@PathVariable Integer roomId) {
+        try {
+            Room room = roomService.findById(roomId);
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(room.getImage());
+        } catch(Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/create")

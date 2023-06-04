@@ -3,9 +3,10 @@ package com.naukma.hotelbackend.room.model;
 import com.naukma.hotelbackend.hotel.model.Hotel;
 import com.naukma.hotelbackend.reservation.model.Reservation;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,8 +32,13 @@ public class Room {
     private BigDecimal price;
 
     @NotNull
-    @Size(min = 1, max = 4)
+    @Min(value = 1)
+    @Max(value = 4)
     private Integer capacity;
+
+    @NotNull
+    @Lob
+    private byte[] image;
 
     @NotNull
     @ManyToOne
