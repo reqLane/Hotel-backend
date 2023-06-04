@@ -81,7 +81,7 @@ public class RoomController {
             room = roomService.create(room);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -99,7 +99,7 @@ public class RoomController {
             roomService.update(room);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -113,7 +113,7 @@ public class RoomController {
             roomService.deleteById(room.getId());
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 }

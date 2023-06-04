@@ -38,7 +38,7 @@ public class ReservationController {
             reservation = reservationService.create(reservation, clientId, hotelAddress, roomNumber);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -48,7 +48,7 @@ public class ReservationController {
             reservationService.deleteById(Integer.parseInt(data.get("reservationId")));
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 }

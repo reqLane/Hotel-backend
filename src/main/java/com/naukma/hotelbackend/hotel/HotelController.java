@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,7 +25,7 @@ public class HotelController {
             Hotel saved = hotelService.create(data);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -38,7 +40,7 @@ public class HotelController {
             hotelService.update(hotel);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -50,7 +52,22 @@ public class HotelController {
             hotelService.deleteById(hotel.getId());
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
+        }
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Map<String, Object>>> getAllHotels() {
+        try {
+            List<Map<String, Object>> response = new ArrayList<>();
+
+            for (Hotel hotel : hotelService.findAll()) {
+                response.add(hotel.toMap());
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

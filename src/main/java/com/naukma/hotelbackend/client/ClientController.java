@@ -24,7 +24,7 @@ public class ClientController {
             clientService.register(data);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -42,7 +42,7 @@ public class ClientController {
             clientService.update(client);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
@@ -57,7 +57,7 @@ public class ClientController {
             Map<String, String> response = new HashMap<>();
             response.put("authenticated", "false");
             response.put("exception", e.getMessage());
-            return ResponseEntity.ok(response);
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
@@ -72,7 +72,7 @@ public class ClientController {
             Map<String, String> response = new HashMap<>();
             response.put("authenticated", "false");
             response.put("exception", e.getMessage());
-            return ResponseEntity.ok(response);
+            return ResponseEntity.badRequest().body(response);
         }
     }
 }
