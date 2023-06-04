@@ -1,6 +1,7 @@
 package com.naukma.hotelbackend.hotel;
 
 import com.naukma.hotelbackend.hotel.model.Hotel;
+import com.naukma.hotelbackend.room.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,23 @@ public class HotelController {
 
             for (Hotel hotel : hotelService.findAll()) {
                 response.add(hotel.toMap());
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/getAllRooms")
+    public ResponseEntity<List<Map<String, Object>>> getAllRooms(@RequestBody Map<String, String> data) {
+        try {
+            String hotelAddress = data.get("address");
+
+            List<Map<String, Object>> response = new ArrayList<>();
+
+            for (Room room : hotelService.findAllRoomsOfHotel(hotelAddress)) {
+                response.add(room.toMap());
             }
 
             return ResponseEntity.ok(response);

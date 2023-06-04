@@ -1,10 +1,12 @@
 package com.naukma.hotelbackend.hotel;
 
 import com.naukma.hotelbackend.hotel.model.Hotel;
+import com.naukma.hotelbackend.room.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,15 @@ public class HotelService {
 
     public Hotel findByAddress(String address) {
         return hotelRepo.findFirstByAddressEquals(address);
+    }
+
+    public List<Room> findAllRoomsOfHotel(String hotelAddress) {
+        Hotel hotel = findByAddress(hotelAddress);
+        List<Room> result = hotel.getRoomList();
+
+        result.sort(Comparator.comparing(Room::getNumber));
+
+        return result;
     }
 
     //DEFAULT OPERATIONS
