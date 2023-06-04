@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
@@ -78,6 +80,10 @@ public class RoomController {
             Hotel hotel = hotelService.findByAddress(data.get("hotelAddress"));
             room.setHotel(hotel);
 
+            String base64image = data.get("image");
+            byte[] image = Base64.getDecoder().decode(base64image.getBytes(StandardCharsets.UTF_8));
+            room.setImage(image);
+
             room = roomService.create(room);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
@@ -95,6 +101,10 @@ public class RoomController {
             room.setNumber(Integer.parseInt(data.get("newNumber")));
             room.setPrice(new BigDecimal(data.get("newPrice")));
             room.setCapacity(Integer.parseInt(data.get("newCapacity")));
+
+            String base64image = data.get("newImage");
+            byte[] image = Base64.getDecoder().decode(base64image.getBytes(StandardCharsets.UTF_8));
+            room.setImage(image);
 
             roomService.update(room);
             return ResponseEntity.ok(true);
