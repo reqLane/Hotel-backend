@@ -104,8 +104,12 @@ public class RoomController {
             Date checkIn = Date.valueOf(data.get("checkIn"));
             Date checkOut = Date.valueOf(data.get("checkOut"));
             Integer adults = Integer.parseInt(data.get("adults"));
-            BigDecimal priceMin = new BigDecimal(data.get("priceMin"));
-            BigDecimal priceMax = new BigDecimal(data.get("priceMax"));
+
+            String priceMinStr = data.get("priceMin");
+            String priceMaxStr = data.get("priceMax");
+            BigDecimal priceMin = null, priceMax = null;
+            if(priceMinStr != null) priceMin = new BigDecimal(priceMinStr);
+            if(priceMaxStr != null) priceMax = new BigDecimal(data.get("priceMax"));
 
             List<Map<String, Object>> response = new ArrayList<>();
 
