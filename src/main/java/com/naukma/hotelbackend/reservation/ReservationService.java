@@ -45,8 +45,8 @@ public class ReservationService {
         else return result.get();
     }
 
-    public Reservation create(Reservation reservation, Integer clientId, String hotelAddress, Integer roomNumber) {
-        Client client = clientService.findById(clientId);
+    public Reservation create(Reservation reservation, String clientEmail, String hotelAddress, Integer roomNumber) {
+        Client client = clientService.findByEmail(clientEmail);
         Room room = roomService.findByHotelAndNumber(hotelAddress, roomNumber);
 
         reservation.setClient(client);

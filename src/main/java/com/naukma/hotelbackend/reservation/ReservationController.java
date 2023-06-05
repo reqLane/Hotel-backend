@@ -1,7 +1,6 @@
 package com.naukma.hotelbackend.reservation;
 
 import com.naukma.hotelbackend.reservation.model.Reservation;
-import com.naukma.hotelbackend.room.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +29,12 @@ public class ReservationController {
             reservation.setCheckIn(Date.valueOf(data.get("checkIn")));
             reservation.setCheckOut(Date.valueOf(data.get("checkOut")));
 
-            Integer clientId = Integer.parseInt(data.get("clientId"));
+            String clientEmail = data.get("clientEmail");
 
             String hotelAddress = data.get("hotelAddress");
             Integer roomNumber = Integer.parseInt(data.get("roomNumber"));
 
-            reservation = reservationService.create(reservation, clientId, hotelAddress, roomNumber);
+            reservation = reservationService.create(reservation, clientEmail, hotelAddress, roomNumber);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(false);

@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class RoomService {
@@ -41,6 +42,9 @@ public class RoomService {
     public List<Room> findFiltered(String hotelAddress, Date checkIn, Date checkOut, Integer adults, BigDecimal priceMin, BigDecimal priceMax) {
         List<Room> result = new ArrayList<>();
 
+        long diffInMilliseconds = checkOut.getTime() - checkIn.getTime();
+        long diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMilliseconds);
+
         for (Room room : hotelService.findAllRoomsOfHotel(hotelAddress)) {
             if(room.getCapacity() >= adults
                     && room.getPrice().compareTo(priceMin) >= 0
@@ -54,6 +58,8 @@ public class RoomService {
                     }
                 }
                 if(acceptableRoom) {
+                    BigDecimal totalPrice = room.getPrice().multiply(new BigDecimal(diffInDays));
+                    room.setPrice(totalPrice);
                     result.add(room);
                 }
             }
