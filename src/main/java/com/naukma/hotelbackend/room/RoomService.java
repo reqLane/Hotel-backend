@@ -42,6 +42,8 @@ public class RoomService {
     public List<Room> findFiltered(String hotelAddress, Date checkIn, Date checkOut, Integer adults, BigDecimal priceMin, BigDecimal priceMax) {
         List<Room> result = new ArrayList<>();
 
+        if(checkIn.equals(checkOut)) return result;
+
         long diffInMilliseconds = checkOut.getTime() - checkIn.getTime();
         long diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMilliseconds);
 
