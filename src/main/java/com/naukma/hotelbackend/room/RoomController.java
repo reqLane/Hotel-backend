@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -90,6 +93,28 @@ public class RoomController {
             return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(room.getImage());
         } catch(Exception e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/getFiltered")
+    public ResponseEntity<List<Map<String, Object>>> getRoomsFiltered(@RequestBody Map<String, String> data) {
+        try {
+            String hotelAddress = data.get("hotelAddress");
+            Date checkIn = Date.valueOf(data.get("checkIn"));
+            Date checkOut = Date.valueOf(data.get("checkOut"));
+            Integer adults = Integer.parseInt(data.get("adults"));
+            BigDecimal priceMin = new BigDecimal(data.get("priceMin"));
+            BigDecimal priceMax = new BigDecimal(data.get("priceMax"));
+
+            List<Map<String, Object>> response = new ArrayList<>();
+
+            for (Room room : roomService.findFiltered(hotelAddress, checkIn, checkOut, adults, priceMin, priceMax)) {
+                response.add(room.toMap());
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

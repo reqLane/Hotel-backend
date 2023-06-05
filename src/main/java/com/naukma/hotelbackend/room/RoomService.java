@@ -2,10 +2,13 @@ package com.naukma.hotelbackend.room;
 
 import com.naukma.hotelbackend.hotel.HotelService;
 import com.naukma.hotelbackend.hotel.model.Hotel;
+import com.naukma.hotelbackend.reservation.model.Reservation;
 import com.naukma.hotelbackend.room.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,30 @@ public class RoomService {
         }
 
         return null;
+    }
+
+    public List<Room> findFiltered(String hotelAddress, Date checkIn, Date checkOut, Integer adults, BigDecimal priceMin, BigDecimal priceMax) {
+        List<Room> result = new ArrayList<>();
+
+        for (Room room : hotelService.findAllRoomsOfHotel(hotelAddress)) {
+            if(room.getCapacity() >= adults
+                    && room.getPrice().compareTo(priceMin) >= 0
+                    && room.getPrice().compareTo(priceMax) <= 0) {
+                boolean acceptableRoom = true;
+                for (Reservation reservation : room.getReservationList()) {
+                    if(reservation.getCheckIn().compareTo(checkOut) < 0
+                            && reservation.getCheckOut().compareTo(checkIn) > 0) {
+                        acceptableRoom = false;
+                        break;
+                    }
+                }
+                if(acceptableRoom) {
+                    result.add(room);
+                }
+            }
+        }
+
+        return result;
     }
 
     //DEFAULT OPERATIONS

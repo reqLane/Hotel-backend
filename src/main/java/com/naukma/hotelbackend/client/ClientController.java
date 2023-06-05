@@ -46,7 +46,7 @@ public class ClientController {
         }
     }
 
-    @PostMapping("/authenticateClient")
+    @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> data) {
         try {
             String email = data.get("email");
