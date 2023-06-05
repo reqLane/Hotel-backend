@@ -51,6 +51,7 @@ public class Reservation {
 
     public Map<String, Object> toMap() {
         Map<String, Object> map = new LinkedHashMap<>();
+        map.put("id", id);
         map.put("client", client.getName() + " " + client.getSurname());
         map.put("hotel", room.getHotel().getAddress());
         map.put("room", room.getNumber());
