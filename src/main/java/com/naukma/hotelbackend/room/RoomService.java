@@ -47,8 +47,8 @@ public class RoomService {
 
         for (Room room : hotelService.findAllRoomsOfHotel(hotelAddress)) {
             if(room.getCapacity() >= adults
-                    && room.getPrice().compareTo(priceMin) >= 0
-                    && room.getPrice().compareTo(priceMax) <= 0) {
+                    && (priceMin == null || room.getPrice().compareTo(priceMin) >= 0)
+                    && (priceMax == null || room.getPrice().compareTo(priceMax) <= 0)) {
                 boolean acceptableRoom = true;
                 for (Reservation reservation : room.getReservationList()) {
                     if(reservation.getCheckIn().compareTo(checkOut) < 0
