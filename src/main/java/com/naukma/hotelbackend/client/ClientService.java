@@ -31,32 +31,17 @@ public class ClientService {
         return create(client);
     }
 
-    public Map<String, String> authenticateClient(String email, String password) throws Exception {
+    public Map<String, String> authenticate(String email, String password) throws Exception {
         Client client = findByEmail(email);
 
-        if(client == null) throw new Exception("Client with email not found");
-        if(client.getRole() != Role.CLIENT) throw new Exception("Email is used not by client");
+        if(client == null) throw new Exception("Account with email not found");
 
         String expectedPassword = client.getPassword();
         if(!bCryptPasswordEncoder.matches(password, expectedPassword)) throw new Exception("Client password is incorrect");
 
         Map<String, String> response = new HashMap<>();
         response.put("authenticated", "true");
-        response.put("exception", null);
-
-        return response;
-    }
-
-    public Map<String, String> authenticateAdmin(String email, String password) throws Exception {
-        Client client = clientRepo.findFirstByEmailEquals(email);
-        if(client == null) throw new Exception("Admin with email not found");
-        if(client.getRole() != Role.ADMIN) throw new Exception("Email is used not by admin");
-
-        String expectedPassword = client.getPassword();
-        if(!bCryptPasswordEncoder.matches(password, expectedPassword)) throw new Exception("Admin password is incorrect");
-
-        Map<String, String> response = new HashMap<>();
-        response.put("authenticated", "true");
+        response.put("role", client.getRole().getValue());
         response.put("exception", null);
 
         return response;

@@ -47,30 +47,16 @@ public class ClientController {
     }
 
     @PostMapping("/authenticateClient")
-    public ResponseEntity<Map<String, String>> authenticateClient(@RequestBody Map<String, String> data) {
+    public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> data) {
         try {
             String email = data.get("email");
             String password = data.get("password");
-            Map<String, String> response = clientService.authenticateClient(email, password);
+            Map<String, String> response = clientService.authenticate(email, password);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> response = new HashMap<>();
             response.put("authenticated", "false");
-            response.put("exception", e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
-    }
-
-    @PostMapping("/authenticateAdmin")
-    public ResponseEntity<Map<String, String>> authenticateAdmin(@RequestBody Map<String, String> data) {
-        try {
-            String email = data.get("email");
-            String password = data.get("password");
-            Map<String, String> response = clientService.authenticateAdmin(email, password);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            Map<String, String> response = new HashMap<>();
-            response.put("authenticated", "false");
+            response.put("role", null);
             response.put("exception", e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
