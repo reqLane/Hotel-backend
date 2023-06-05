@@ -11,6 +11,8 @@ import org.hibernate.annotations.Check;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -46,4 +48,16 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "client_fk")
     private Client client;
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("client", client.getName() + " " + client.getSurname());
+        map.put("hotel", room.getHotel().getAddress());
+        map.put("room", room.getNumber());
+        map.put("adults", adults);
+        map.put("reservationPrice", reservationPrice);
+        map.put("checkIn", checkIn.toString());
+        map.put("checkOut", checkOut.toString());
+        return map;
+    }
 }

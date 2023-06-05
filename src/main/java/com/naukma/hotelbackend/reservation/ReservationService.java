@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,28 @@ public class ReservationService {
     }
 
     //OPERATIONS
+
+    public List<Reservation> findByClientEmail(String clientEmail) {
+
+        Client client = clientService.findByEmail(clientEmail);
+
+        List<Reservation> result = new ArrayList<>(client.getReservationList());
+
+        result.sort(Comparator.comparing(Reservation::getCheckIn));
+
+        return result;
+    }
+
+    public List<Reservation> findByHotelAndNumber(String hotelAddress, Integer roomNumber) {
+
+        Room room = roomService.findByHotelAndNumber(hotelAddress, roomNumber);
+
+        List<Reservation> result = new ArrayList<>(room.getReservationList());
+
+        result.sort(Comparator.comparing(Reservation::getCheckIn));
+
+        return result;
+    }
 
     //DEFAULT OPERATIONS
 

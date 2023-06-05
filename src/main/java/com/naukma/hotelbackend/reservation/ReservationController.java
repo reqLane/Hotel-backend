@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,6 +50,41 @@ public class ReservationController {
             return ResponseEntity.ok(true);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(false);
+        }
+    }
+
+    @PostMapping("/byClientEmail")
+    public ResponseEntity<List<Map<String, Object>>> getAllByClientEmail(@RequestBody Map<String, String> data) {
+        try {
+            List<Map<String, Object>> response = new ArrayList<>();
+
+            String clientEmail = data.get("clientEmail");
+
+            for (Reservation reservation : reservationService.findByClientEmail(clientEmail)) {
+                response.add(reservation.toMap());
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/byHotelAndNumber")
+    public ResponseEntity<List<Map<String, Object>>> getAllByHotelAndNumber(@RequestBody Map<String, String> data) {
+        try {
+            List<Map<String, Object>> response = new ArrayList<>();
+
+            String hotelAddress = data.get("hotelAddress");
+            Integer roomNumber = Integer.parseInt(data.get("roomNumber"));
+
+            for (Reservation reservation : reservationService.findByHotelAndNumber(hotelAddress, roomNumber)) {
+                response.add(reservation.toMap());
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
