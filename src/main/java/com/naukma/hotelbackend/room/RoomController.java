@@ -57,11 +57,14 @@ public class RoomController {
         try {
             String hotelAddress = data.get("hotelAddress");
             Integer number = Integer.parseInt(data.get("oldNumber"));
-            Room room = roomService.findByHotelAndNumber(hotelAddress, number);
+            Room oldRoom = roomService.findByHotelAndNumber(hotelAddress, number);
 
+            Room room = new Room();
+            room.setId(oldRoom.getId());
             room.setNumber(Integer.parseInt(data.get("newNumber")));
             room.setPrice(new BigDecimal(data.get("newPrice")));
             room.setCapacity(Integer.parseInt(data.get("newCapacity")));
+            room.setHotel(oldRoom.getHotel());
 
             String base64image = data.get("newImage");
             byte[] image = Base64.getDecoder().decode(base64image.getBytes(StandardCharsets.UTF_8));
