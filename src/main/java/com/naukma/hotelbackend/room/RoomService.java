@@ -98,7 +98,15 @@ public class RoomService {
         return roomRepo.save(room);
     }
 
-    public void update(Room room) {
+    public void update(Room room) throws Exception {
+        List<Room> existingRooms = room.getHotel().getRoomList();
+
+        for (Room existingRoom : existingRooms) {
+            if(existingRoom.getNumber().equals(room.getNumber())) {
+                throw new Exception("This room number already exists in the hotel");
+            }
+        }
+
         roomRepo.save(room);
     }
 
