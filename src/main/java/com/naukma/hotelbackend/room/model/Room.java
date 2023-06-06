@@ -19,7 +19,6 @@ import java.util.Map;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

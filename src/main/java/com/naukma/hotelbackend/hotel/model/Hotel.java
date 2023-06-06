@@ -17,7 +17,6 @@ import java.util.Map;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
