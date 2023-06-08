@@ -61,4 +61,14 @@ public class ClientController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @PostMapping("/emailAlreadyOccupied")
+    public ResponseEntity<Boolean> emailAlreadyOccupied(@RequestBody Map<String, String> data) {
+        try {
+            boolean response = clientService.emailAlreadyOccupied(data.get("email"));
+            return ResponseEntity.ok(response);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }

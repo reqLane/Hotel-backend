@@ -51,6 +51,10 @@ public class ClientService {
         return clientRepo.findFirstByEmailEquals(email);
     }
 
+    public boolean emailAlreadyOccupied(String email) {
+        return clientRepo.existsClientByEmailEquals(email);
+    }
+
     //DEFAULT OPERATIONS
 
     public List<Client> findAll() {

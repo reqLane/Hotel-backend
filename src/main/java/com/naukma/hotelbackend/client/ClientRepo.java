@@ -10,4 +10,6 @@ import java.util.List;
 public interface ClientRepo extends CrudRepository<Client, Integer> {
 
     Client findFirstByEmailEquals(String email);
+
+    boolean existsClientByEmailEquals(String email);
 }
